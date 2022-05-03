@@ -6,6 +6,10 @@
       >
       <span class="title">Initial Balance</span>
     </div>
+    <Transaction
+      sectionTitle="Recent Transactions"
+      balanceInfoTitle="Current Balance"
+    />
 
     <!-- <div class="section-title">
       <h2>Recent Transactions</h2>
