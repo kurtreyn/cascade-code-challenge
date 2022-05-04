@@ -23,7 +23,7 @@
           {{ transaction.Amount.toFixed(2) }}
         </span>
         <span class="remaining-balance">
-          <!-- Remaining Balance: {{ remainingBalance[i].toFixed(2) }} -->
+          <!-- Remaining Balance: {{ this.remainingBalance[i].toFixed(2) }} -->
         </span>
       </div>
     </div>
@@ -51,14 +51,11 @@ export default {
     balanceInfoTitle: String,
   },
   computed: {
-    ...mapGetters(['transactions']),
-    ...mapActions(['remainingBalance', 'endBalance']),
+    ...mapGetters(['transactions', 'transactionDate']),
+    // ...mapActions(['remainingBalance', 'endBalance']),
   },
   methods: {
-    // ...mapActions(['remainingBalance', 'endBalance']),
-    dateMethod(date) {
-      return new Date(date).toString().slice(0, 21);
-    },
+    ...mapActions(['remainingBalance', 'endBalance']),
   },
 };
 </script>
