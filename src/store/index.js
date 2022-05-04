@@ -1,5 +1,4 @@
 import { createStore } from 'vuex';
-import transactionData from './transactionData';
 
 export default createStore({
   state: {
@@ -74,15 +73,32 @@ export default createStore({
     },
   },
   getters: {
-    getData: (state) => state.Statement.Transactions,
+    transactions: (state) => state.Statement.Transactions,
   },
   mutations: {
-    setData(state, payload) {
-      state.data = payload;
+    remainingBalance: (state) => {
+      let availableBalance = state.transactions[0].AvailableBalance;
+      return state.map((transaction) => {
+        if (transaction.Billed) {
+          return (availableBalance -= transaction.Amount).toFixed(2);
+        }
+      });
+    },
+
+    endBalance: (state) => {
+      let availableBalance = state.transactions[0].AvailableBalance;
+      return state.map((transaction) => {
+        return (availableBalance -= transaction.Amount);
+      });
     },
   },
-  actions: {},
-  modules: {
-    transactionData,
+  actions: {
+    remainingBalance: (context, payload) => {
+      context.commit('remainingBalance', payload);
+    },
+    endBalance: (context, payload) => {
+      context.commit('endBalance', payload);
+    },
   },
+  modules: {},
 });

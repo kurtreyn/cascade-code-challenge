@@ -43,24 +43,22 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 export default {
   name: 'Transaction',
   props: {
     sectionTitle: String,
     balanceInfoTitle: String,
   },
-
-  data() {
-    return {
-      transactions: [],
-      endBalance: [],
-      remainingBalance: [],
-    };
+  computed: {
+    ...mapGetters(['transactions']),
+    ...mapActions(['remainingBalance', 'endBalance']),
   },
-  mounted() {
-    this.transactions = this.$store.getters.transactions;
-    this.endBalance = this.$store.getters.endBalance;
-    this.remainingBalance = this.$store.getters.remainingBalance;
+  methods: {
+    // ...mapActions(['remainingBalance', 'endBalance']),
+    dateMethod(date) {
+      return new Date(date).toString().slice(0, 21);
+    },
   },
 };
 </script>

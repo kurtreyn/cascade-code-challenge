@@ -9,7 +9,12 @@
     <Transaction
       sectionTitle="Recent Transactions"
       balanceInfoTitle="Current Balance"
+      :dateMethod="dateMethod(transactions[0].TransactionDate)"
     />
+    <!-- <Transaction
+      sectionTitle="Pending Transactions"
+      balanceInfoTitle="Ending Balance"
+    /> -->
 
     <!-- <div class="section-title">
       <h2>Recent Transactions</h2>
@@ -89,7 +94,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import Transaction from './Transaction.vue';
 export default {
   name: 'TransactionContainer',
@@ -98,21 +103,11 @@ export default {
   },
   computed: {
     ...mapGetters(['transactions']),
-
-    remainingBalance: function () {
-      let availableBalance = this.transactions[0].AvailableBalance;
-      return this.transactions.map((transaction) => {
-        if (transaction.Billed) {
-          return (availableBalance -= transaction.Amount);
-        }
-      });
-    },
-
-    endBalance: function () {
-      let availableBalance = this.transactions[0].AvailableBalance;
-      return this.transactions.map((transaction) => {
-        return (availableBalance -= transaction.Amount);
-      });
+  },
+  methods: {
+    ...mapActions(['remainingBalance', 'endBalance']),
+    dateMethod(date) {
+      return new Date(date).toString().slice(0, 21);
     },
   },
 };
