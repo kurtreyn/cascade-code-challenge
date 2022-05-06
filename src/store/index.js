@@ -73,23 +73,20 @@ export default createStore({
     },
   },
   getters: {
-    transactions: (state) => state.Statement.Transactions,
-    transactionDate: (state) => {
-      state.map((transaction) => {
-        console.log(transaction.TransactionDate);
-      });
-    },
-  },
-  mutations: {
+    transactions: (state) =>
+      state.Statement.Transactions.filter((transaction) => transaction.Billed),
+    notSettled: (state) => state.Statement.NotSettled,
     remainingBalance: (state) => {
       let availableBalance = state.transactions[0].AvailableBalance;
-      state.map((transaction) => {
+      return state.map((transaction) => {
         if (transaction.Billed) {
+          console.log(transaction);
           return (availableBalance -= transaction.Amount);
         }
       });
     },
-
+  },
+  mutations: {
     endBalance: (state) => {
       let availableBalance = state.transactions[0].AvailableBalance;
       return state.map((transaction) => {
@@ -101,8 +98,8 @@ export default createStore({
     remainingBalance: (context) => {
       context.commit('remainingBalance');
     },
-    endBalance: (context, payload) => {
-      context.commit('endBalance', payload);
+    endBalance: (context) => {
+      context.commit('endBalance');
     },
   },
   modules: {},

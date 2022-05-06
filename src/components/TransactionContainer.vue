@@ -9,6 +9,12 @@
     <Transaction
       sectionTitle="Recent Transactions"
       balanceInfoTitle="Current Balance"
+      :dataArray="transactions"
+    />
+    <Transaction
+      sectionTitle="Pending Transactions"
+      balanceInfoTitle="Ending Balance"
+      :dataArray="notSettled"
     />
   </div>
 </template>
@@ -22,7 +28,7 @@ export default {
     Transaction,
   },
   computed: {
-    ...mapGetters(['transactions']),
+    ...mapGetters(['transactions', 'notSettled']),
   },
   methods: {
     ...mapActions(['remainingBalance', 'endBalance']),

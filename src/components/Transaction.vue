@@ -3,8 +3,8 @@
     <h2>{{ sectionTitle }}</h2>
   </div>
 
-  <div v-for="(transaction, i) in transactions" :key="i">
-    <div class="transaction" v-if="transaction.Billed">
+  <div v-for="(transaction, i) in dataArray" :key="i">
+    <div class="transaction">
       <div class="left-side">
         <span class="date">
           {{ new Date(transaction.TransactionDate).toString().slice(0, 21) }}
@@ -23,7 +23,7 @@
           {{ transaction.Amount.toFixed(2) }}
         </span>
         <span class="remaining-balance">
-          <!-- Remaining Balance: {{ this.remainingBalance[i].toFixed(2) }} -->
+          Remaining Balance: {{ this.remainingBalance.toFixed(2) }}
         </span>
       </div>
     </div>
@@ -49,13 +49,22 @@ export default {
   props: {
     sectionTitle: String,
     balanceInfoTitle: String,
+    dateProp: String,
+    dataArray: Array,
   },
   computed: {
-    ...mapGetters(['transactions', 'transactionDate']),
+    // ...mapGetters(['remainingBalance']),
     // ...mapActions(['remainingBalance', 'endBalance']),
+    remainingBalance() {
+      let availableBalance = this.dataArray[0].AvailableBalance;
+
+      return this.dataArray.reduce((amount, transaction) => {
+        return (amount -= transaction.Amount);
+      }, availableBalance);
+    },
   },
   methods: {
-    ...mapActions(['remainingBalance', 'endBalance']),
+    // ...mapActions(['remainingBalance', 'endBalance']),
   },
 };
 </script>
