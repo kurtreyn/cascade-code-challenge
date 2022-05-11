@@ -23,7 +23,7 @@
           {{ transaction.Amount.toFixed(2) }}
         </span>
         <span class="remaining-balance">
-          Remaining Balance: {{ this.remainingBalance.toFixed(2) }}
+          Remaining Balance: {{ this.remainingBalance[i].toFixed(2) }}
         </span>
       </div>
     </div>
@@ -55,12 +55,19 @@ export default {
   computed: {
     // ...mapGetters(['remainingBalance']),
     // ...mapActions(['remainingBalance', 'endBalance']),
+    // remainingBalance() {
+    //   let availableBalance = this.dataArray[0].AvailableBalance;
+    //   return this.dataArray.reduce((amount, transaction) => {
+    //     return (amount -= transaction.Amount);
+    //   }, availableBalance);
+    // },
     remainingBalance() {
-      let availableBalance = this.dataArray[0].AvailableBalance;
-
-      return this.dataArray.reduce((amount, transaction) => {
-        return (amount -= transaction.Amount);
-      }, availableBalance);
+      let available = 400;
+      return this.data.reduce((newArray, trans) => {
+        available -= trans.Amount;
+        newArray.push(available);
+        return newArray;
+      }, []);
     },
   },
   methods: {
